@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+<head>
+<title>Victoria's Gift</title>
+<meta name="description" content="Anthony's 2023 Xmas gift for Victoria">
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script>
+    function sendEmail() {
+        var time = new Date().getTime();
+        var date = new Date(time);
+        Email.send({
+            SecureToken: "0a613627-7bc8-4929-bd35-41f3dd87489c",
+            To: 'aciston819@gmail.com',
+            From: "st.nick.25.12.1900@gmail.com",
+            Subject: "Naughty list alert",
+            Body: `Victoria has made an attempt on ${date.toString()} to open her present before Xmas.`
+            }).then(function (message) {
+                alert("Your naughty attempt to open your present before Xmas has been recorded.")
+        });
+    }
+</script>
+<!--<script src="script.js"></script>-->
+</head>
+<body>
+    <audio id="jingle"><source src="jingle.mp3"></audio>
+    <audio id="unwrap"><source src="unwrap.mp3"></audio>
+    <audio id="party"><source src="party.mp3"></audio>
+    <audio id="buzzer"><source src="buzzer.mp3"></audio>
+<script>
+// Create snowflake divs
+for (i = 1; i < 195; i++) {
+    var div = document.createElement('div');
+    div.classList.add('snow');
+    div.id = i;
+    document.body.appendChild(div);
+}
+</script>
+<div id="xmas">Very Victorian Xmas 2023</div>
+<div id="gift"></div>
+<div id="countdown">Calculating time to Christmas...</div>
+<div id="start"><span>Start</span></div>
+<div id="spotty">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6in0CipgjgzHavPDd1NqXR?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+<div id="text"><br><b>Merry Christmas, sweetheart!</b> Your present is this playlist which I made specially just for you from my favorite and most moving pieces I've found over the last couple years and based on what I thought you would like most (e.g. with a minimal number of sax solos 😅). Many, many man-hours were spent hand-selecting all 150 tracks, arranging them in this particular order, and wrapping the present up nicely for you to enjoy. I hope it brings you many hours of joy and that you will think of me whenever you listen to it. Have a lovely Christmas, and I look forward to seeing and talking to you soon. 💋<br><br><b>PS.</b> You can click on the title of the playlist to open it in Spotify. From there you can listen to more than just a preview of every song and save the playlist to your library.</div>
+<script>
+
+function fade(element) {
+    var op = 1;  // initial opacity
+    var timer = setInterval(function () {
+        if (op <= 0){
+            clearInterval(timer);
+            element.style.display = 'none';
+        }
+        element.style.opacity = op;
+        element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+        op -= 0.03;
+    }, 10);
+}
+
+function unfade(element, delay) {
+    var op = 0;  // initial opacity
+    element.style.display = 'block';
+    setTimeout(function() {
+        var timer = setInterval(function () {
+            if (op >= 1){
+                clearInterval(timer);
+            }
+            element.style.opacity = op;
+            element.style.filter = 'alpha(opacity=' + op * 100 + ")";
+            op += 0.01;
+        }, 10);
+    }, delay);
+}
+
+var gift = document.getElementById('gift');
+var spotty = document.getElementById('spotty');
+var start = document.getElementById('start');
+var distance;
+
+start.onclick = function() {
+    unfade(gift, 0);
+    unfade(document.getElementById('countdown'), 0);
+    start.style.display = 'none';
+
+    /* Countdown begin */
+
+    // Set the date we're counting down to
+    var countDownDate = new Date("Dec 25, 2023 00:00:00").getTime(); // "Dec 25, 2023 00:00:00"
+
+    var zeroPad = (num, places) => String(num).padStart(places, '0');
+
+    // Update the count down every 1 second
+    var x = setInterval(function() {
+
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        distance = countDownDate - now;
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Display the result in the element with id="demo"
+        document.getElementById("countdown").innerHTML = `<span id='timer'>${zeroPad(days,2)}d:${zeroPad(hours,2)}h:${zeroPad(minutes,2)}m:${zeroPad(seconds,2)}s</span><br>left until Christmas!`;
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+            clearInterval(x);
+            document.getElementById("countdown").innerHTML = "Merry Christmas!&nbsp;&nbsp;Your gift is ready...";
+            
+            //fireconfetti();
+            //document.getElementById("party").play();
+
+            document.getElementById("jingle").play();
+        }
+    }, 1000);
+}
+
+gift.onmouseenter = function() {
+    //document.getElementById("jingle").play();
+    document.getElementById("unwrap").play();
+}
+gift.onclick = function() {
+    // Before Xmas
+    if (distance > 0) {
+        sendEmail();
+        document.getElementById("buzzer").play();
+    // After Xmas
+    } else {
+        fade(gift);
+        unfade(spotty, 1000);
+        unfade(document.getElementById('text'), 1000)
+        document.getElementById('countdown').style.display = 'none';
+
+        //document.getElementById("unwrap").play();
+        fireconfetti();
+        document.getElementById("party").play();
+    }
+}
+
+var scalar = 2;
+var tree = confetti.shapeFromText({ text: '🎄', scalar });
+var snowman = confetti.shapeFromText({ text: '⛄', scalar });
+var present = confetti.shapeFromText({ text: '🎁', scalar });
+var santa = confetti.shapeFromText({ text: '🎅', scalar });
+var snowflake = confetti.shapeFromText({ text: '❄️', scalar });
+
+var defaults = {
+    spread: 360,
+    origin: { x: 0.5, y: 0.5 },
+    ticks: 60,
+    gravity: 1.5,
+    decay: 0.96,
+    startVelocity: 20,
+    shapes: [tree, snowman, santa, snowflake],
+    scalar
+};
+
+function shoot() {
+    confetti({
+        ...defaults,
+        particleCount: 30
+    });
+
+    confetti({
+        ...defaults,
+        particleCount: 5,
+        flat: true
+    });
+
+    confetti({
+        ...defaults,
+        particleCount: 15,
+        scalar: scalar / 2,
+        shapes: ['circle']
+    });
+}
+
+function fireconfetti() {
+    setTimeout(shoot, 100);
+    setTimeout(shoot, 200);
+    setTimeout(shoot, 300);
+    setTimeout(shoot, 400);
+}
+
+</script>
+</body>
+</html>
+
